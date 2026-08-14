@@ -1,6 +1,6 @@
 ---
 name: liquid-glass-app-icon-designer
-description: Design, generate, refine, critique, and prepare app icons for desktop, mobile, and cross-platform software using a premium Apple-inspired Liquid Glass aesthetic. Use when the user requests an app or program icon, icon redesign, Liquid Glass icon, Apple-like icon, icon concepts, image-generation prompts, visual critique, or export guidance for PNG, ICO, ICNS, or Apple icon workflows.
+description: "Design, generate, refine, critique, and prepare real app icons for desktop, mobile, and cross-platform software in a precise Apple-inspired Liquid Glass style: rounded-square or squircle tiles, translucent tinted glass, soft bevels, controlled refraction, and one highly legible central symbol. Use when the user requests an app or program icon, icon redesign, Liquid Glass icon, Apple-like icon, icon concepts, image-generation prompts, visual critique, or export guidance for PNG, ICO, ICNS, or Apple icon workflows. Treat spherical glass objects, neon orbs, concentric rings, and cinematic 3D scenes as failures unless the user explicitly requests them."
 ---
 
 # Liquid Glass App Icon Designer
@@ -17,6 +17,29 @@ Support icons for:
 - Windows desktop applications
 - Tauri and Electron applications
 - cross-platform utilities, media players, AI apps, creative tools, productivity apps, and system tools
+
+## Visual target
+
+Treat “Liquid Glass app icon” as a specific icon construction, not as a request for a generic shiny 3D object.
+
+The default target is:
+
+- one 1:1 app icon filling the canvas
+- a rounded-square or squircle base tile as the primary silhouette
+- one large, simple, centered symbol that communicates the product
+- softly tinted, translucent or frosted glass/acrylic with rounded bevels
+- broad diffuse highlights, gentle internal color shifts, subtle refraction, and a quiet contact shadow
+- clear separation between the tile and the foreground symbol
+- a restrained palette, normally one base hue plus one accent
+- a front-facing or only slightly elevated presentation, with no cinematic scene or product mockup
+
+The supplied reference family is the calibration target: simple squircle tiles, calm gradients, soft translucency, polished edges, and symbols that remain obvious at a glance. Match that design grammar rather than copying any brand. The icon should feel like a finished operating-system app icon, not a floating glass sphere, jewel, planet, portal, lens, or neon sculpture.
+
+### Hard geometry rule
+
+Unless the user explicitly asks for a circular icon, make the icon tile a rounded square/squircle. A circular product metaphor may appear as the symbol inside that tile, but it must not turn the whole canvas into a sphere or a stack of concentric rings.
+
+If a draft becomes an orb, bubble, crystal ball, glowing gyroscope, vortex, or ringed planet, reject it as off-target and simplify the prompt before iterating.
 
 ## Workflow
 
@@ -35,6 +58,8 @@ If the user has already provided enough information, do not ask unnecessary ques
 
 If a repository, screenshot, or README is available, inspect it before proposing concepts so the icon reflects the actual product instead of a generic category.
 
+If visual references are provided, extract their shared design grammar before writing a prompt: tile geometry, symbol scale, material opacity, lighting softness, palette restraint, and background treatment. Separate those shared properties from the individual subject matter. Use the references to calibrate the material and composition, not to reproduce a branded icon literally.
+
 ### 2. Extract one strong visual metaphor
 
 Translate the product into one or two concrete visual metaphors. Prefer a single focal symbol over a collage of features. A good metaphor should be simple, relevant, visually distinctive, memorable, and readable at small sizes.
@@ -43,7 +68,7 @@ Useful examples include:
 
 - media player: play triangle, screen, waveform, film strip, or subtitle card
 - note app: note sheet, spark, card stack, pencil, or speech bubble
-- AI assistant: starburst, orb, neural knot, or layered speech form
+- AI assistant: starburst, neural knot, layered speech form, or a small contained orb symbol inside the tile
 - file organizer: folder, grid, stack, or tag
 - dictionary or translation tool: paired glyphs, language bubbles, or split card
 - video utility: frame, timeline, slider, cutter, or waveform
@@ -64,33 +89,35 @@ Recommend the strongest direction and explain the recommendation briefly. Favor 
 
 ### 4. Apply the Liquid Glass visual language
 
-Use the following principles as defaults:
+Build the icon in two readable layers:
 
-- layered translucent forms
-- subtle internal reflections
-- soft refraction or lens-like distortion
-- carefully controlled highlights
-- rounded or precise geometry according to the product's tone
-- realistic depth without unnecessary complexity
-- separation between the foreground symbol and the back plate
-- optional luminous accents that reinforce hierarchy
-- a restrained palette related to the product category
+1. **Base tile:** a rounded-square/squircle plate with a soft tint, subtle gradient, translucent or frosted body, rounded bevel, thin edge highlight, and restrained depth. It may be opaque enough to preserve the color field; “glass” does not mean invisible.
+2. **Foreground symbol:** one clean metaphor, centered and large enough to survive reduction. Make it slightly raised or inset with a soft contact shadow, a crisp silhouette, and a limited amount of translucency or gloss.
 
-The icon should communicate the product's function first and express the style second. Do not let effects replace form.
+Use broad, soft studio lighting: a gentle top/side rim, diffuse internal light, a few controlled reflections, and mild refraction. Keep the material tactile and luminous without turning it into chrome, liquid neon, or a crystal sphere. The symbol must remain the first thing the viewer reads.
 
-Avoid:
+Default composition targets:
 
-- excessive chrome
-- noisy rainbow refractions
-- too many floating objects
-- illegible micro-details
-- thin shapes that disappear at small sizes
-- cheap neon effects unless the product genuinely calls for them
+- tile occupies roughly 78–92% of the square canvas, with consistent corner radius and breathing room
+- foreground symbol occupies roughly 45–70% of the tile
+- front view or a very mild 5–15° elevation; avoid dramatic perspective
+- one dominant color family and at most one supporting accent
+- quiet solid or softly graded background; use transparency only outside the tile when technically required
+
+Do not let effects replace the icon's form. “Liquid Glass” means smooth translucent material, soft depth, and controlled light on a real app-icon silhouette—not an abstract liquid simulation.
+
+Avoid by default:
+
+- spheres, orbs, bubbles, planets, marbles, crystals, jewels, portals, or gyroscopes
+- concentric rings, spirals, vortices, target shapes, or floating circular layers
+- cyberpunk neon, rainbow chrome, intense lens flares, electric plasma, or hard specular glare
+- detached glass sculptures, cinematic scenes, wallpaper backgrounds, product mockups, or icon-grid presentations
+- too many floating objects, thin lines, tiny UI details, or text inside the icon
 - generic glassmorphism without a clear central metaphor
 
 ### 5. Check small-size legibility
 
-Mentally test each concept at 1024, 512, 256, 128, 64, and 32 pixels. Check the silhouette, figure-ground separation, major edges, contrast, and recognizability. If the concept collapses at 32 pixels, simplify it before finalizing.
+Mentally test each concept at 1024, 512, 256, 128, 64, and 32 pixels. First check that the rounded-square tile is still the dominant silhouette; then check the symbol, figure-ground separation, major edges, contrast, and recognizability. If the concept collapses at 32 pixels, simplify it before finalizing. A beautiful material treatment cannot rescue a weak icon silhouette.
 
 ### 6. Generate the prompt or asset
 
@@ -98,7 +125,7 @@ When the user wants a prompt for another model, provide one polished, production
 
 When the user wants the actual icon image, use the available image-generation capability rather than returning only a prompt. Generate the strongest chosen direction, inspect the result when possible, critique it against this skill, and iterate if the result is unclear, cluttered, poorly materialized, or insufficiently distinctive.
 
-When the image generator cannot reliably produce a transparent background, generate a clean high-resolution master with a simple background and explain the most practical way to remove or replace it during export.
+When the image generator cannot reliably produce a transparent background, generate a clean high-resolution master with a simple background and explain the most practical way to remove or replace it during export. Preserve the rounded-square tile; do not “solve” transparency by turning the icon into an isolated sphere or detached object.
 
 ### 7. Critique and improve
 
@@ -124,7 +151,7 @@ Use when the user asks for a prompt for another model or image generator.
 Provide:
 
 - one polished production-ready prompt
-- an optional negative prompt
+- a concise negative prompt by default when the model supports it, including the geometry and lighting anti-patterns above
 - optional aspect-ratio, transparency, and platform notes
 - optional iteration instructions
 
@@ -158,16 +185,16 @@ If the user asks for a final icon directly, shorten the concept phase and move q
 
 Build a final prompt with the following structure, adapting the details to the product:
 
-> Create a premium app icon for "[APP NAME]". The app is a [APP TYPE OR FUNCTION]. Design a modern Apple-inspired Liquid Glass icon that communicates [CORE FUNCTION]. Use one simple, highly recognizable central metaphor: [METAPHOR]. Render it as a polished, layered icon with translucent glass-like materials, subtle internal reflections, soft highlights, controlled refraction, and elegant depth. Keep the form clean, legible, centered, and recognizable at small sizes. Avoid clutter, competing symbols, and generic cheap glassmorphism. Use a restrained palette centered on [PRIMARY COLORS]. The icon should feel premium, minimal, tactile, and suitable for [PLATFORM]. The background should be [TRANSPARENT OR SOLID, DEPENDING ON NEED]. Deliver a clean, high-resolution icon master suitable for app packaging.
+> Create a single 1:1 premium app icon for "[APP NAME]". The app is a [APP TYPE OR FUNCTION]. Design a modern Apple-inspired Liquid Glass icon that communicates [CORE FUNCTION]. Start with a rounded-square/squircle app tile that fills the canvas; this tile is the primary silhouette. Place exactly one simple, highly recognizable central metaphor on it: [METAPHOR]. Render the tile and symbol as softly tinted translucent/frosted glass or polished acrylic with rounded bevels, broad diffuse highlights, subtle internal refraction, gentle depth, and a soft contact shadow. Keep the symbol centered, crisp, and about 45–70% of the tile. Use a restrained palette centered on [PRIMARY COLORS], with at most one supporting accent. Use a front-facing or mildly elevated icon view, a quiet [SOLID OR TRANSPARENT-OUTSIDE-THE-TILE] background, no text, and no surrounding scene. The result must read as a finished app icon at 32 px, not as a floating glass sphere, abstract 3D sculpture, poster, or wallpaper. Deliver a clean, high-resolution icon master suitable for [PLATFORM].
 
 Include optional elements only when they support the concept:
 
 - rounded squircle presentation
-- a separate foreground symbol hovering over a translucent plate
-- subtle glow
-- soft shadow beneath the central element
-- refined inner caustic reflections
-- polished edge highlights
+- a separate foreground symbol slightly raised over a translucent plate
+- a restrained soft glow or color bloom
+- a soft contact shadow beneath the central element
+- a faint inner color shift or controlled refraction
+- a thin polished edge highlight
 - professional lighting
 - dark-mode compatibility
 - light-mode compatibility
@@ -178,42 +205,52 @@ When the image model supports negative prompts, use relevant parts of the follow
 
 - no text
 - no watermark
-- no busy background
+- no busy background, wallpaper, product mockup, or marketing poster
 - no extra objects
 - no low-detail symbol
 - no cartoonish clip-art look
-- no exaggerated rainbow distortion
+- no sphere, orb, bubble, ball, planet, crystal, jewel, portal, gyroscope, or ringed object
+- no concentric rings, vortex, spiral, target, whirlpool, or floating circular layers
+- no exaggerated rainbow distortion, cyberpunk neon, rainbow chrome, plasma, or hard lens flare
 - no muddy transparency
 - no generic mobile UI screenshot inside the icon
 - no overcomplicated scene
 - no illegible tiny details
+- no detached abstract 3D sculpture
+- no full-frame black void unless the user explicitly requests a dark tile
 
 Do not include irrelevant negative terms merely to make the prompt longer.
+
+### Failure correction rule
+
+If the first result resembles a glossy orb with rings, like a sci-fi sphere, do not accept it as Liquid Glass. Rewrite the prompt with the phrases “single rounded-square app tile,” “one flat readable symbol,” “soft translucent acrylic surface,” and “no sphere, orb, rings, or neon,” then regenerate or critique again. The correction must change the geometry, not merely reduce the glow.
 
 ## Design rules
 
 ### Form
 
+- make the rounded-square/squircle tile the dominant silhouette
 - center and balance the base composition
 - use one clear focal symbol
-- prefer clean primary shapes
-- add layered background forms only when they support depth or meaning
+- prefer clean primary shapes with generous margins
+- add internal layers only when they support the tile's depth or the symbol's meaning
 - avoid busy scenes
 
 ### Surface
 
-- keep the surface glossy but refined
-- make transparency luminous rather than muddy
-- give the material a convincing but controlled response
-- use realistic, slightly idealized highlights
-- avoid greasy or over-sharpened reflections
+- keep the surface softly glossy and tactile, like tinted glass or polished acrylic
+- make transparency luminous but controlled; preserve a readable color field
+- use broad gradients, gentle bevels, and a few intentional highlights
+- give the material a convincing but restrained response
+- avoid greasy reflections, crystal-ball refraction, chrome, and over-sharpened glare
 
 ### Color
 
 - use a restrained, coherent palette
 - match colors to the product's category and brand
 - use accent lighting only when it preserves legibility
-- avoid random rainbow coloring unless it is conceptually justified
+- keep one dominant hue and at most one supporting accent by default
+- avoid random rainbow coloring, neon gradients, and high-saturation light leaks unless the product genuinely calls for them
 
 ### Symbol language
 
@@ -225,15 +262,18 @@ Do not include irrelevant negative terms merely to make the prompt longer.
 
 ### Composition
 
+- ensure the icon reads as a finished rounded-square app icon before considering effects
 - ensure the icon reads against both light and dark contexts when possible
 - preserve strong figure-ground separation
 - maintain clear contrast between the foreground symbol and back plate
+- keep the canvas free of scenes, captions, device frames, and decorative objects
 
 ## Apple-inspired heuristics
 
 Use these heuristics to maintain the intended visual direction:
 
 - crisp silhouette
+- rounded-square/squircle tile as the primary silhouette
 - tactile materiality
 - soft depth
 - subtly elevated central object
@@ -241,6 +281,7 @@ Use these heuristics to maintain the intended visual direction:
 - finish that feels engineered, not decorative
 - elegance before novelty
 - effects that support form instead of replacing it
+- translucent acrylic/glass surfaces rather than spherical glass geometry
 
 ## Review checklist
 
@@ -259,10 +300,13 @@ Use this checklist before finalizing.
 - Does the glass treatment look intentional and controlled?
 - Is the color palette coherent?
 - Does it feel Apple-inspired rather than like random glassmorphism?
+- Does it resemble a polished app-icon tile rather than an orb, jewel, or sci-fi object?
+- Are the highlights soft and diffuse rather than neon or chrome-like?
 
 ### Legibility
 
 - Does it still work at small sizes?
+- Is the rounded-square tile obvious before the material effects are noticed?
 - Is the silhouette strong?
 - Are the edges and major forms clear?
 - Are there too many details?
@@ -286,7 +330,7 @@ When the user wants delivery guidance, recommend:
 ### Master asset
 
 - 1024 x 1024 pixels minimum
-- transparent background when the icon must be reused across platforms
+- transparent pixels outside the rounded-square tile when the icon must be reused across platforms; keep the tile itself intact
 - an editable source file when possible
 - a clean high-resolution PNG master even when platform-specific formats are also required
 
@@ -301,7 +345,7 @@ When the user wants delivery guidance, recommend:
 
 ### Video player
 
-For a video player, identify it as a media tool and consider a play button, screen, waveform, film strip, or subtitle card. Recommend the metaphor with the clearest silhouette, then apply depth and translucency without making the play symbol disappear.
+For a video player, identify it as a media tool and consider a play button, screen, waveform, film strip, or subtitle card. Put the clearest metaphor inside a rounded-square tile, then apply soft depth and translucency without making the play symbol disappear. Do not turn the play button into a glowing ring or spherical control.
 
 ### Utility app redesign
 
@@ -309,7 +353,7 @@ For an existing utility icon, critique the current silhouette, contrast, metapho
 
 ### Subtitle and media organizer
 
-For a Tauri desktop app that organizes subtitles and media files, consider a subtitle card with a folder, a waveform with a card stack, or a playback frame with a text panel. Choose the clearest metaphor instead of combining all three, then include desktop export guidance when appropriate.
+For a Tauri desktop app that organizes subtitles and media files, consider a subtitle card, a folder, a waveform, or a compact playback frame. Choose the clearest metaphor inside the tile instead of combining all features, then include desktop export guidance when appropriate.
 
 ## Required behavior
 
@@ -323,12 +367,13 @@ Always:
 6. explain the reasoning briefly when proposing multiple directions
 7. include export recommendations when the user asks for final delivery
 8. use the actual image-generation capability when the user requests an image, not only a text prompt
+9. reject spherical, ringed, neon, poster-like, or overly cinematic results when the user asked for a Liquid Glass app icon
 
 ## Short invocation instruction
 
 When another tool or agent needs a compact instruction, use:
 
-> Design a premium app icon in an Apple-inspired Liquid Glass style. First infer the app's function and propose several strong icon metaphors. Choose the clearest and most memorable concept. Keep the icon simple, legible at small sizes, visually polished, and materially convincing. Use restrained translucency, elegant depth, refined highlights, and a premium finish. Avoid clutter, generic glassmorphism, and weak silhouettes. Ensure the final result is suitable for real app packaging.
+> Design a premium 1:1 app icon in an Apple-inspired Liquid Glass style. First infer the app's function and choose one clear, memorable symbol. Build it inside a rounded-square/squircle tile with softly tinted translucent acrylic/glass, gentle bevels, broad diffuse highlights, controlled refraction, and a soft contact shadow. Keep the tile and symbol simple, centered, and legible at 32 px. Avoid spheres, orbs, concentric rings, neon, chrome, cinematic scenes, posters, generic glassmorphism, and weak silhouettes. Ensure the final result is suitable for real app packaging.
 
 ## End condition
 

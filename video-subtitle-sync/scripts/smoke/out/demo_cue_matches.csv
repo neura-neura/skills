@@ -1,5 +1,0 @@
-﻿cue_number,cue_start,cue_end,cue_text,rank,ocr_time,ocr_text,ocr_confidence,text_similarity,combined_score
-1,0.000,4.000,Hola mundo,1,2.000,Hola | mundo,0.9644,1.0000,1.0000
-1,0.000,4.000,Hola mundo,2,1.000,Hola | mundo,0.9644,1.0000,1.0000
-1,0.000,4.000,Hola mundo,3,3.000,Hola | mundo,0.9665,1.0000,1.0000
-1,0.000,4.000,Hola mundo,4,0.000,Hola | mundo,0.9656,1.0000,1.0000

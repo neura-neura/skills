@@ -29,4 +29,3 @@ Given a local video path and an SRT path, produce a corrected SRT whose text and
 ## Helper
 
 See `scripts/README.md` for dependencies and invocation. The helper is an aid for indexing visible text and matching cues, not an authority on corrections. Visually verify uncertain readings and all proposed timing changes before delivering the SRT.
-

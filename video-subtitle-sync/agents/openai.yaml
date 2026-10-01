@@ -1,4 +1,4 @@
 interface:
   display_name: "Video Subtitle Sync"
-  short_description: "Generate or match SRT subtitles to burned-in video captions"
-  default_prompt: "If I provide only a video path, generate an SRT from the burned-in captions. If I provide a video path and an SRT path, sync that SRT to the captions."
+  short_description: "Generate, sync, translate, or combine video subtitles"
+  default_prompt: "Generate or sync subtitles from my video. After the source SRT is complete, ask whether I want translations or a combined bilingual SRT unless I already specified them."

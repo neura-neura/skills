@@ -1,11 +1,11 @@
 ---
 name: video-subtitle-sync
-description: Generate an SRT from subtitles burned into a local video, or align an existing SRT to those captions by correcting timing, duplicates, OCR errors, incomplete text, and spelling. Use when the user provides a local video path, with or without an SRT path.
+description: Generate or synchronize SRT subtitles from captions burned into a local video, then optionally translate them into one or more languages or create a combined bilingual SRT. Use when the user provides a local video path, with or without an SRT path.
 ---
 
 # Video Subtitle Sync
 
-Given a local video path, produce an SRT whose text and timings match captions burned into the video. If the user also provides an SRT path, synchronize and clean that file against the visible captions. If the user provides only a video path, assume there is no SRT and generate one from the visible captions. The user normally only needs to provide the path or paths. Infer the subtitle language from the captions and context; do not ask for it unless necessary.
+Given a local video path, produce an SRT whose text and timings match captions burned into the video. If the user also provides an SRT path, synchronize and clean that file against the visible captions. If the user provides only a video path, assume there is no SRT and generate one from the visible captions. Preserve the source-language SRT as the canonical base. After completing the source-language subtitle file, create any requested translations and combined bilingual or multilingual SRTs using [the translation and combination guide](references/translation-and-combination.md). The user normally only needs to provide the path or paths and any desired output languages/layout. Infer the source language from the captions and context; do not ask for it unless necessary.
 
 ## Workflow
 
@@ -16,7 +16,10 @@ Given a local video path, produce an SRT whose text and timings match captions b
 5. Correct text against the image: remove OCR garbage, restore truncated words/lines, fix clear spelling and punctuation errors in the source language, and preserve capitalization, line breaks, speaker labels, and meaningful formatting where visible. Use context to distinguish OCR errors, but do not invent obscured or inaudible words. Mark genuinely unreadable portions as `[unreadable]` and record them in the review file.
 6. Remove accidental duplicate cues and fragmented repeats by comparing normalized text and display intervals. Keep a repeated utterance when the video actually displays it again. Transform cues by timestamps/content, never by stale cue indexes after deletions or merges.
 7. Merge or split cues only to match caption changes on screen. Preserve valid SRT numbering, timestamp syntax, chronological order, and intentional overlaps when they reflect the video.
-8. Save the output as a UTF-8 SRT and write the review file. Re-open and structurally validate the output: cue numbering, timestamp parsing, positive durations, chronological ordering, accidental duplicates, obvious junk text, and video-duration bounds. Summarize changes and unresolved ambiguities to the user.
+8. Save the source-language output as a UTF-8 SRT and write the review file. Re-open and structurally validate the output: cue numbering, timestamp parsing, positive durations, chronological ordering, accidental duplicates, obvious junk text, and video-duration bounds.
+9. Once the source-language subtitle file is complete and reviewed, determine whether the user requested translations and/or a combined subtitle file. If the user already specified languages, target variants, or layout, proceed without asking again. Otherwise ask one concise follow-up whether they want translations (and which languages) and/or a combined file (and which language should appear first/on top). They may request translations only, combination only, both, or neither. Do not delay the source-language SRT while awaiting this optional choice.
+10. Translate the entire completed source-language SRT cue by cue. Preserve cue count, order, start/end timestamps, speaker labels, and meaningful line breaks; translate idioms naturally and keep names and terminology consistent. Write each target language as a separate UTF-8 SRT with a clear language suffix, such as `_en.srt` or `_zh.srt`, without overwriting the source or other outputs.
+11. When a combined bilingual or multilingual file is requested, align texts by cue identity and timestamps from the completed source and translated files, retaining the source cue timing. Put languages in the exact requested order and use separate lines within each SRT cue (for example Chinese first, Spanish second). Keep paired text in one SRT block, preserve intentional cue boundaries, and do not shift or duplicate cue times to accommodate longer translations. Name the output clearly, such as `_zh-es_dual.srt`. Validate every translation and combined SRT with the same structural checks, then summarize all output paths.
 
 ## Video inspection guidance
 
@@ -28,4 +31,4 @@ Given a local video path, produce an SRT whose text and timings match captions b
 
 ## Helper
 
-See `scripts/README.md` for dependencies and invocation. The helper is an aid for indexing visible text and matching existing cues, not an SRT generator or authority on corrections. In video-only mode, use its timestamped observations as a locator and build the SRT after visually reviewing the frames. Visually verify uncertain readings and all proposed timing changes before delivering the SRT.
+See `scripts/README.md` for dependencies and invocation. The helper is an aid for indexing visible text and matching existing cues, not an authority on corrections. In video-only mode, use its timestamped observations as a locator and build the SRT after visually reviewing the frames. Visually verify uncertain readings and all proposed timing changes before delivering the SRT. It does not translate; translate only after the complete source-language SRT has been reviewed.

@@ -224,21 +224,65 @@ def rank_matches(cues: list[Cue], observations: list[dict[str, Any]]) -> list[di
     return rows
 
 
+def build_caption_candidates(
+    observations: list[dict[str, Any]], sample_interval: float
+) -> list[dict[str, Any]]:
+    """Group consecutive near-identical OCR observations into provisional display intervals."""
+    candidates: list[dict[str, Any]] = []
+    for observation in observations:
+        text = str(observation["text"]).strip()
+        if not text:
+            continue
+        time = float(observation["time"])
+        normalized = normalize(text)
+        if candidates:
+            previous = candidates[-1]
+            gap = time - float(previous["last_observed"])
+            same_caption = similarity(normalized, normalize(str(previous["text"]))) >= 0.78
+            if same_caption and gap <= sample_interval * 1.6:
+                previous["last_observed"] = time
+                previous["end_estimate"] = round(time + sample_interval / 2, 3)
+                previous["observations"] += 1
+                previous["confidence_sum"] += float(observation.get("confidence", 0))
+                continue
+        candidates.append({
+            "start_estimate": round(max(0.0, time - sample_interval / 2), 3),
+            "end_estimate": round(time + sample_interval / 2, 3),
+            "first_observed": time,
+            "last_observed": time,
+            "text": text,
+            "observations": 1,
+            "confidence_sum": float(observation.get("confidence", 0)),
+        })
+    for number, candidate in enumerate(candidates, 1):
+        count = int(candidate.pop("observations"))
+        confidence_sum = float(candidate.pop("confidence_sum"))
+        candidate.pop("first_observed")
+        candidate.pop("last_observed")
+        candidate["cue_number"] = number
+        candidate["mean_ocr_confidence"] = round(confidence_sum / count, 4)
+        candidate["sample_count"] = count
+        candidate["review"] = "Provisional interval; verify first and last visible frames."
+    return candidates
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("video", type=Path)
-    parser.add_argument("srt", type=Path)
+    parser.add_argument("srt", type=Path, nargs="?", help="Optional existing SRT to match")
     parser.add_argument("--sample-fps", type=float, default=2.0)
     parser.add_argument("--output-dir", type=Path)
     parser.add_argument("--crop-bottom", type=float, default=0.35)
     parser.add_argument("--ocr-lang", default="eng", help="Tesseract language(s), e.g. spa+eng")
     args = parser.parse_args()
     video = args.video.expanduser().resolve()
-    srt = args.srt.expanduser().resolve()
-    output_dir = (args.output_dir or srt.parent).expanduser().resolve()
+    srt = args.srt.expanduser().resolve() if args.srt else None
+    output_dir = (args.output_dir or (srt.parent if srt else video.parent)).expanduser().resolve()
 
-    if not video.is_file() or not srt.is_file():
-        parser.error("video and SRT paths must both point to existing files")
+    if not video.is_file():
+        parser.error("video path must point to an existing file")
+    if srt is not None and not srt.is_file():
+        parser.error("the provided SRT path must point to an existing file")
     if not 0 < args.sample_fps <= 2:
         parser.error("--sample-fps must be greater than 0 and no more than 2")
     if not 0 < args.crop_bottom <= 1:
@@ -247,10 +291,14 @@ def main() -> int:
     if missing:
         parser.error(f"missing from PATH: {', '.join(missing)}; install FFmpeg and retry")
 
-    raw_srt, encoding = decode_srt(srt)
-    cues, warnings = parse_srt(raw_srt)
-    if not cues:
-        parser.error("No valid SRT cues were found")
+    cues: list[Cue] = []
+    warnings: list[str] = []
+    encoding = None
+    if srt is not None:
+        raw_srt, encoding = decode_srt(srt)
+        cues, warnings = parse_srt(raw_srt)
+        if not cues:
+            parser.error("No valid SRT cues were found")
     try:
         metadata = run_probe(video)
         duration = float(metadata.get("format", {}).get("duration", 0))
@@ -265,42 +313,58 @@ def main() -> int:
         return 2
 
     output_dir.mkdir(parents=True, exist_ok=True)
-    stem = srt.stem
+    stem = srt.stem if srt else video.stem
     observations_path = output_dir / f"{stem}_ocr.jsonl"
     matches_path = output_dir / f"{stem}_cue_matches.csv"
+    candidates_path = output_dir / f"{stem}_caption_candidates.csv"
     inspection_path = output_dir / f"{stem}_inspection.json"
     with observations_path.open("w", encoding="utf-8", newline="\n") as stream:
         for observation in observations:
             stream.write(json.dumps(observation, ensure_ascii=False) + "\n")
 
-    matches = rank_matches(cues, observations)
+    matches = rank_matches(cues, observations) if srt else []
     fieldnames = list(matches[0]) if matches else [
         "cue_number", "cue_start", "cue_end", "cue_text", "rank", "ocr_time",
         "ocr_text", "ocr_confidence", "text_similarity", "combined_score",
     ]
-    with matches_path.open("w", encoding="utf-8-sig", newline="") as stream:
-        writer = csv.DictWriter(stream, fieldnames=fieldnames)
-        writer.writeheader()
-        writer.writerows(matches)
+    if srt:
+        with matches_path.open("w", encoding="utf-8-sig", newline="") as stream:
+            writer = csv.DictWriter(stream, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(matches)
+    else:
+        candidates = build_caption_candidates(observations, 1.0 / args.sample_fps)
+        candidate_fields = [
+            "cue_number", "start_estimate", "end_estimate", "text",
+            "mean_ocr_confidence", "sample_count", "review",
+        ]
+        with candidates_path.open("w", encoding="utf-8-sig", newline="") as stream:
+            writer = csv.DictWriter(stream, fieldnames=candidate_fields)
+            writer.writeheader()
+            writer.writerows(candidates)
 
     inspection = {
-        "video": str(video), "srt": str(srt), "srt_encoding": encoding,
+        "video": str(video), "srt": str(srt) if srt else None, "srt_encoding": encoding,
         "duration_seconds": duration, "video_metadata": metadata,
-        "cue_count": len(cues), "ocr_observation_count": len(observations),
+        "cue_count": len(cues) if srt else None, "ocr_observation_count": len(observations),
         "sample_fps": args.sample_fps, "crop_bottom_fraction": args.crop_bottom,
         "ocr_engine": "tesseract" if shutil.which("tesseract") else "rapidocr",
         "ocr_language": args.ocr_lang if shutil.which("tesseract") else None,
         "warnings": warnings,
         "outputs": {
             "ocr_jsonl": str(observations_path),
-            "cue_matches_csv": str(matches_path),
+            "cue_matches_csv": str(matches_path) if srt else None,
+            "caption_candidates_csv": str(candidates_path) if not srt else None,
         },
-        "note": "OCR candidates need visual verification; scan samples are not frame-by-frame review.",
+        "note": "OCR candidates and estimated display intervals need visual verification; scan samples are not frame-by-frame review.",
     }
     inspection_path.write_text(json.dumps(inspection, ensure_ascii=False, indent=2), encoding="utf-8")
-    print(f"Indexed {len(observations)} OCR observations for {len(cues)} cues.")
+    print(f"Indexed {len(observations)} OCR observations.")
     print(f"OCR observations: {observations_path}")
-    print(f"Cue candidates:   {matches_path}")
+    if srt:
+        print(f"Cue candidates:   {matches_path} ({len(cues)} SRT cues)")
+    else:
+        print(f"Caption candidates: {candidates_path}")
     print(f"Inspection info:  {inspection_path}")
     print("Visually verify captions and boundaries before editing the SRT.")
     return 0

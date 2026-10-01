@@ -1,0 +1,4 @@
+interface:
+  display_name: "Video Subtitle Sync"
+  short_description: "Match SRT subtitles to burned-in video captions"
+  default_prompt: "Sync this SRT to the burned-in captions in this video: provide the video path and SRT path."

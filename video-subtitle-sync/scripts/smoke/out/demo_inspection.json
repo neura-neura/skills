@@ -1,0 +1,36 @@
+{
+  "video": "C:\\Users\\neura\\Documents\\Codex\\2026-10-01\\ve-e\\work\\skills_repo\\video-subtitle-sync\\scripts\\smoke\\demo.mp4",
+  "srt": "C:\\Users\\neura\\Documents\\Codex\\2026-10-01\\ve-e\\work\\skills_repo\\video-subtitle-sync\\scripts\\smoke\\demo.srt",
+  "srt_encoding": "utf-8-sig",
+  "duration_seconds": 6.0,
+  "video_metadata": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 640,
+        "height": 360,
+        "r_frame_rate": "2/1",
+        "avg_frame_rate": "2/1"
+      }
+    ],
+    "format": {
+      "duration": "6.000000"
+    }
+  },
+  "cue_count": 1,
+  "ocr_observation_count": 4,
+  "sample_fps": 1.0,
+  "crop_bottom_fraction": 0.35,
+  "ocr_engine": "tesseract",
+  "ocr_language": "eng",
+  "warnings": [],
+  "outputs": {
+    "ocr_jsonl": "C:\\Users\\neura\\Documents\\Codex\\2026-10-01\\ve-e\\work\\skills_repo\\video-subtitle-sync\\scripts\\smoke\\out\\demo_ocr.jsonl",
+    "cue_matches_csv": "C:\\Users\\neura\\Documents\\Codex\\2026-10-01\\ve-e\\work\\skills_repo\\video-subtitle-sync\\scripts\\smoke\\out\\demo_cue_matches.csv"
+  },
+  "note": "OCR candidates need visual verification; scan samples are not frame-by-frame review."
+}

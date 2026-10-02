@@ -1,4 +1,4 @@
 interface:
   display_name: "Video Subtitle Sync"
-  short_description: "Generate, sync, translate, or combine video subtitles"
-  default_prompt: "Generate or sync subtitles from my video. After the source SRT is complete, ask whether I want translations or a combined bilingual SRT unless I already specified them."
+  short_description: "Edit, translate, combine, or convert subtitle files"
+  default_prompt: "Handle my video or subtitle file: generate or sync subtitles, adjust timing, translate, combine bilingual tracks, or convert formats. Ask about translation or combination after video analysis if I have not specified preferences."

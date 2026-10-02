@@ -21,3 +21,15 @@ Use this guide only after the source-language SRT is complete and reviewed.
 ## Asking after source analysis
 
 Finish the source-language SRT first. If the user has not already said what they want, ask once whether they want translation, a combined file, or both. Ask for target language(s), and for a combined file ask the line order (first/on top, then second/bottom). Treat “neither” as a valid answer and do not ask again for a choice they already specified.
+
+## Subtitle formats and conversions
+
+- Common formats include SRT, WebVTT (`.vtt`), and SubStation Alpha (`.ass`/`.ssa`). Inspect the actual file before parsing; extensions can be wrong.
+- Convert only to the format the user requests. If they say “convert” but give no target format, ask which format they want. If no conversion was requested, preserve the supplied format for text-only edits when practical; video-only generation defaults to SRT.
+- Preserve timestamps, cue order, text, line breaks, speaker labels, and styling where the target format supports them. SRT cannot represent all ASS/SSA positioning, styling, and karaoke data; explain any loss and keep the original unchanged.
+- Save converted outputs as new files with a target-format suffix. Never overwrite the supplied subtitle file.
+- Before translation or dual-track assembly, normalize the source into an internal cue list (start, end, text, formatting metadata), perform the operation, then serialize to the requested output format and validate it.
+
+## Subtitle-file-only timing requests
+
+When the user supplies only subtitles and asks to “adjust the timing” without providing offset, drift, or reference cues, ask what timing change or synchronization reference they want. Do not claim exact synchronization to video/audio without the media or another timing source. Apply explicit constant offsets or user-provided timing rules while preserving cue order and positive durations, and write a separate output file.
